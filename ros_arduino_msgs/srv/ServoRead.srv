@@ -1,0 +1,4 @@
+# 伺服电机输入
+uint8 id
+---
+float32 value

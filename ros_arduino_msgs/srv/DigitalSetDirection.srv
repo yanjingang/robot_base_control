@@ -1,0 +1,4 @@
+# 数字IO设置方向
+uint8 pin
+bool direction
+---

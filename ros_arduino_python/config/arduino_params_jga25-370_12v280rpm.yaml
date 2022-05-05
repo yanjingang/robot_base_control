@@ -1,0 +1,49 @@
+# 定义相关参数，端口，rate，PID，sensors等默认参数。由arduino.launch调用
+# arduino + 25ga370马达参数配置(12v 空转620rpm/分钟)
+
+port: /dev/ttyACM0
+baud: 57600
+timeout: 0.1
+
+rate: 50
+sensorstate_rate: 10
+
+use_base_controller: True #启用基座控制器
+base_controller_rate: 10
+
+# For a robot that uses base_footprint, change base_frame to base_footprint
+base_frame: base_footprint #base_frame 设置
+
+# === 马达参数 Robot drivetrain parameters
+wheel_diameter: 0.03     # 轮胎直径(米) 这个经过线速度标定测试不能按实际的来，按约5倍配置
+wheel_track: 0.11        # 两个轮胎间距(米)
+encoder_resolution: 11    # 编码器精度(编码器参数表：jga25-370配置的编码器为电机一圈11个脉冲)
+gear_reduction: 35       # 减速比(马达参数表：jga25-370 280rpm减速比为35)
+#motors_reversed: True    # 转向取反
+
+# === PID parameters 马达PID参数，控制轮速，修改到车子能够根据命令走直线且速度稳定
+Kp: 3 #0.18   # 提高响应速度，调大后惯性过大，容易导致超过目标值后的震荡回调（通常先把其他参数置0，将Kp参数由小向大调，以能达到最快响应又无无大超调为最佳参数。）
+Ki: 2 #0.15   # 根据历史曲线调节控制误差（调大会导致趋于稳定的时间变长，调小会导致超调量过大而回调震荡幅度过大。通常从大往小调整，调小的同时也要缩小Kp）
+Kd: 0 #0      # 主要用于对Kp的未来走势进行预测，以避免Kp冲过头（通常为0.5*延迟时间，过大会导致超调震荡而难以收敛。通常在P、I调节好后，再调节D，一般的系统D=0,1或2即可，只有滞后较大的系统，D值才可能调大些）
+Ko: 50
+accel_limit: 1.0
+
+# === Sensor definitions.  Examples only - edit for your robot.
+#     Sensor type can be one of the follow (case sensitive!):
+#	  * Ping
+#	  * GP2D12
+#	  * Analog
+#	  * Digital
+#	  * PololuMotorCurrent
+#	  * PhidgetsVoltage
+#	  * PhidgetsCurrent (20 Amp, DC)
+
+
+
+sensors: {
+  #motor_current_left:   {pin: 0, type: PololuMotorCurrent, rate: 5},
+  #motor_current_right:  {pin: 1, type: PololuMotorCurrent, rate: 5},
+  #ir_front_center:      {pin: 2, type: GP2D12, rate: 10},
+  #sonar_front_center:   {pin: 5, type: Ping, rate: 10},
+  #arduino_led:          {pin: 13, type: Digital, rate: 5, direction: output}
+}

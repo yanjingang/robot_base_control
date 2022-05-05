@@ -1,0 +1,4 @@
+# 数字IO输入
+uint8 pin
+---
+bool value
