@@ -1,4 +1,4 @@
-/* Functions for various sensor types */
+/* 传感器的实现文件 Functions for various sensor types */
 
 float microsecondsToCm(long microseconds)
 {
@@ -31,4 +31,3 @@ long Ping(int pin) {
   
   return(range);
 }
-
