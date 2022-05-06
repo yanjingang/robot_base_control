@@ -234,7 +234,7 @@ void setup() {
     int wait_ps2 = 500;  //搜索手柄时间
     do{
         //此函数为配置无线手柄的初始化通信能力，如果ok，返回值0
-        ps2_error = ps2x.config_gamepad(PS2_CLOCK_PIN, PS2_COMMAND_PIN, PS2_ATTENTION_PIN, PS2_DATA_PIN, PS2_USE_PRESSURES, PS2_USE_RUMBLE);  // setup pins and settings:  GamePad(clock, command, attention,  data, Pressures?, Rumble?) 
+        ps2_error = ps2x.config_gamepad(PS2_CLOCK_PIN, PS2_COMMAND_PIN, PS2_ATTENTION_PIN, PS2_DATA_PIN, PS2_USE_PRESSURES, PS2_USE_RUMBLE);  // setup pins and settings:  GamePad(clock, command, attention,  data, Pressures, Rumble) 
         if( ps2_error == 0 ){
             Serial.println( "\nConfigured successful " );  //连接成功
             break;

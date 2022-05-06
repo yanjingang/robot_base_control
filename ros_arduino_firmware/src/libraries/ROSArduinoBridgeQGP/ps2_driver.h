@@ -14,9 +14,9 @@
 
 PS2X ps2x;                     //定义PS2手柄
 
-int ps2_error = 0;      //定义变量错误
-byte ps2_type = 0;      //定义变量形式
-byte ps2_vibrate = 0;   //定义变量震动
+int ps2_error = 0;      //连接错误
+byte ps2_type = 0;      //手柄类型
+byte ps2_vibrate = 0;   //震动
 byte ps2_motor_spd = 50; //默认控制电机转速
 
 
