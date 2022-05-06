@@ -3,7 +3,7 @@
     核心功能实现，程序入口
  
     可以通过一组简单的串口命令来控制差分机器人并接收回传的传感器与里程计
-    数据，默认使用的是 Arduino Mega + Pololu电机驱动模块，如果使用其他的
+    数据，默认使用的是 Arduino + L298P电机驱动模块，如果使用其他的
     编码器或电机驱动需要重写readEncoder()与setMotorSpeed()函数
 
     Created for the Pi Robot Project: http://www.pirobot.org
