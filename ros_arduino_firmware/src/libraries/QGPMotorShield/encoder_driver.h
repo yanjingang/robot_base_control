@@ -5,8 +5,13 @@
    Encoder driver function definitions - by James Nugen
    ************************************************************ */
    
-   
-#ifdef ARDUINO_ENC_COUNTER
+
+#ifdef QGP_ENC_COUNTER
+  // 电机编码器信号读端口
+  #define LEFT_ENC_PIN 1  //M1
+  #define RIGHT_ENC_PIN 2  //M2
+  
+#elif ARDUINO_ENC_COUNTER
   //below can be changed, but should be PORTD pins; 
   //otherwise additional changes in the code are required
   // 左轮电机编码器信号读引脚（A motor 编码信号线接 D2/3）

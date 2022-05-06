@@ -3,7 +3,12 @@
    Motor driver function definitions - by James Nugen
    *************************************************************/
 
-#ifdef  L298P_MOTOR_DRIVER    // L298P
+#ifdef  QGP_MOTOR_DRIVER    // QGP MotorShield
+  // 控制引脚
+  #define LEFT_MOTOR_PIN    1  // Motor 1
+  #define RIGHT_MOTOR_PIN   2  // Motor 2
+
+#elif  L298P_MOTOR_DRIVER    // L298P
   // PWM调速引脚
   #define LEFT_MOTOR_PWM    10  // A motor PWM调速(控制转速)
   #define RIGHT_MOTOR_PWM   11  // B motor PWM调速(控制转速)

@@ -58,6 +58,44 @@
     setMotorSpeed(RIGHT, rightSpeed);
   }
 
+#elif defined QGP_MOTOR_DRIVER    // QGP MotorShield驱动版
+  #include "QGPMaker_MotorShield.h"
+
+  QGPMaker_MotorShield AFMS = QGPMaker_MotorShield();
+  QGPMaker_DCMotor *leftMotor = AFMS.getMotor(LEFT_MOTOR_PIN);  // 1-4马达
+  QGPMaker_DCMotor *rightMotor = AFMS.getMotor(RIGHT_MOTOR_PIN);
+
+  // 初始化
+  void initMotorController() {
+    AFMS.begin(50); // create with the default frequency 50Hz
+  }
+
+  // 单电机运动
+  void setMotorSpeed(int i, int spd) {
+    uint8_t direction = FORWARD;
+
+    if (spd < 0){   //反转
+        spd = -spd;
+        direction = BACKWARD;
+    }
+    if (spd > 255){  //过载控制
+        spd = 255;
+    }
+
+    if (i == LEFT) { 
+        leftMotor->setSpeed(spd); //设置电机速度(0 stopped ~ 255 full speed)
+        leftMotor->run(direction);  //启动电机(FORWARD 正转, BACKWARD 反转 ,RELEASE 关闭电机）
+    }else {
+        rightMotor->setSpeed(spd);
+        rightMotor->run(direction);  //启动电机(FORWARD 正转, BACKWARD 反转 ,RELEASE 关闭电机）
+    }
+  }
+  // 多电机控制
+  void setMotorSpeeds(int leftSpeed, int rightSpeed) {
+    setMotorSpeed(LEFT, leftSpeed);
+    setMotorSpeed(RIGHT, rightSpeed);
+  }
+
 #elif defined L298P_MOTOR_DRIVER    // L298P电机驱动版
 
   // L298P固定转向引脚初始化

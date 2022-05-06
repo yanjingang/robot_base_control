@@ -1,9 +1,9 @@
 /*********************************************************************
- *  ROSArduinoBridge 主程序
+ *  QGPMotorShield 主程序
     核心功能实现，程序入口
  
     可以通过一组简单的串口命令来控制差分机器人并接收回传的传感器与里程计
-    数据，默认使用的是 Arduino Mega + Pololu电机驱动模块，如果使用其他的
+    数据，默认使用的是 Arduino + QGPMotorShield电机驱动模块，如果使用其他的
     编码器或电机驱动需要重写readEncoder()与setMotorSpeed()函数
 
     Created for the Pi Robot Project: http://www.pirobot.org
@@ -62,13 +62,19 @@
    //#define ROBOGAIA
    
    /* 电机编码器信号处理 Encoders directly attached to Arduino board */
-   #define ARDUINO_ENC_COUNTER
+   //#define ARDUINO_ENC_COUNTER
    
    /* 测试电机编码器信号处理 Encoders directly attached to Arduino board */
    //#define ARDUINO_MY_COUNTER
 
+   /* QGP电机编码器信号处理*/
+   #define QGP_ENC_COUNTER
+   
+   /* QGP电机驱动版 MotorShield driver*/
+   #define QGP_MOTOR_DRIVER
+   
    /* L298P电机驱动版 Motor driver*/
-   #define L298P_MOTOR_DRIVER
+   //#define L298P_MOTOR_DRIVER
    
    /* L298N电机驱动版 Motor driver*/
    //#define L298N_MOTOR_DRIVER

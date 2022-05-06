@@ -29,7 +29,7 @@
     else return encoders.XAxisReset();
   }
   
-#elif defined(ARDUINO_ENC_COUNTER)
+#elif defined(ARDUINO_ENC_COUNTER)  // Arduino+L298P电机编码器
   volatile long left_enc_pos = 0L;
   volatile long right_enc_pos = 0L;
   static const int8_t ENC_STATES [] = {0,1,-1,0,-1,0,0,1,1,0,0,-1,0,-1,1,0};  //encoder lookup table
@@ -60,6 +60,38 @@
     //if (i == LEFT) return left_enc_pos * -1;  //yanjingang:左电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
     //else return right_enc_pos;
     else return right_enc_pos * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
+  }
+
+  /* Wrap the encoder reset function */
+  void resetEncoder(int i) {
+    if (i == LEFT){
+      left_enc_pos=0L;
+      return;
+    } else { 
+      right_enc_pos=0L;
+      return;
+    }
+  }
+  
+#elif defined(QGP_ENC_COUNTER)  // QGP驱动版电机编码器
+  #include "QGPMaker_Encoder.h"
+  
+  volatile long left_enc_pos = 0L;
+  volatile long right_enc_pos = 0L;
+  
+  QGPMaker_Encoder leftEncoder(LEFT_ENC_PIN);
+  QGPMaker_Encoder rightEncoder(RIGHT_ENC_PIN);
+  
+  /* Wrap the encoder reading function */
+  long readEncoder(int i) {
+    if (i == LEFT){
+      left_enc_pos = leftEncoder.read();   //encoder.read()获取编码器数值；encoder.getRPM()获取编码器电机对应的每分钟转速（RPM）
+      return left_enc_pos;
+    }
+    else{
+      right_enc_pos = rightEncoder.read() * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
+      return right_enc_pos;
+    }
   }
 
   /* Wrap the encoder reset function */
