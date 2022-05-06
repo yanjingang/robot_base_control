@@ -230,32 +230,35 @@ void setup() {
   // Initialize the ps2 controller if used */
   // 初始化PS2遥控器
   #ifdef USE_PS2
-    // 设置PS2控制引脚
-    ps2_error = ps2x.config_gamepad(PS2_CLOCK_PIN, PS2_COMMAND_PIN, PS2_ATTENTION_PIN, PS2_DATA_PIN, PS2_USE_PRESSURES, PS2_USE_RUMBLE);  // setup pins and settings:  GamePad(clock, command, attention,  data, Pressures?, Rumble?) 
-    if (ps2_error == 0) { // 成功
-        Serial.println("Found Controller, configured successful");
-    } else if (ps2_error == 1){ // 未找到控制器，请检查接线
-        Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit [url]www.billporter.info[/url] for troubleshooting tips");
-    }else if (ps2_error == 2){  // 找到控制器但不接受命令
-        Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit [url]www.billporter.info[/url] for troubleshooting tips");
-    }else if (ps2_error == 3){  // 控制器拒绝进入压力模式，可能不支持
-        Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
-    }
-    // Serial.print(ps2x.Analog(1), HEX);
-
-    // 读取PS2设备类型
-    ps2_type = ps2x.readType();
-    switch (ps2_type) {
+    Serial.print( "Search PS2 Controller.." );  //串口打印“搜索手柄中”
+    int wait_ps2 = 500;  //搜索手柄时间
+    do{
+        //此函数为配置无线手柄的初始化通信能力，如果ok，返回值0
+        ps2_error = ps2x.config_gamepad(PS2_CLOCK_PIN, PS2_COMMAND_PIN, PS2_ATTENTION_PIN, PS2_DATA_PIN, PS2_USE_PRESSURES, PS2_USE_RUMBLE);  // setup pins and settings:  GamePad(clock, command, attention,  data, Pressures?, Rumble?) 
+        if( ps2_error == 0 ){
+            Serial.println( "\nConfigured successful " );  //连接成功
+            break;
+        }else{
+            Serial.print( "." );  //等待连接，此时每0.1秒串口输出'.'用于提示功能 
+            delay( 100 );
+            wait_ps2 -= 100;
+        }
+    }while(wait_ps2 > 0);  //while循环直到手柄连接成功
+    ps2_type = ps2x.readType();   //此函数判断连接控制端类型，0/1：Wireless DualShock Controller found; 2: Unknown Controller; 
+    switch( ps2_type ){  //根据连接手柄读取模式，串口输出型号
         case 0:
-            Serial.println("Unknown Controller ps2_type");
+            Serial.println( "Wireless DualShock Controller found " );  //无线手柄
             break;
         case 1:
-            Serial.println("DualShock Controller Found");
+            Serial.println( "Wireless DualShock Controller found " );  //无线手柄
             break;
         case 2:
-            Serial.println("GuitarHero Controller Found");
+            Serial.println( "Unknown Controller type found " );  // 未知控制器
             break;
     }
+    ps2x.read_gamepad( true, 200 );  //开机震动0.2秒用于提示手柄连接成功
+    delay( 500 );
+    
   #endif
 }
 

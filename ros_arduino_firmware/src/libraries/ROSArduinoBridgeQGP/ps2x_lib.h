@@ -21,7 +21,7 @@
 *          NewButtonState(unsigned int);
 *          ButtonPressed(unsigned int);
 *          ButtonReleased(unsigned int);
-*        removed 'PS' from beginning of ever function
+*        removed 'PS' from begining of ever function
 *    1.0 found and fixed bug that wasn't configuring controller
 *        added ability to define pins
 *        added time checking to reconfigure controller if not polled enough
@@ -59,7 +59,7 @@
 *		Added Arduino 1.0 compatibility. 
 *    1.9
 *       Kurt - Added detection and recovery from dropping from analog mode, plus
-*       integrated Chipkit (pic32mx...) support
+*       integreated Chipkit (pic32mx...) support
 *
 *
 *
@@ -95,18 +95,12 @@ GNU General Public License for more details.
   #define CTRL_CLK        4
   #define CTRL_BYTE_DELAY 3
 #else
-#ifdef ESP8266
-  #define CTRL_CLK        5
-  #define CTRL_CLK_HIGH   5
-  #define CTRL_BYTE_DELAY 18
-#else
   // Pic32...
   #include <pins_arduino.h>
   #define CTRL_CLK        5
   #define CTRL_CLK_HIGH   5
   #define CTRL_BYTE_DELAY 4
 #endif 
-#endif
 
 //These are our button constants
 #define PSB_SELECT      0x0001
@@ -133,8 +127,6 @@ GNU General Public License for more details.
 //Guitar  button constants
 #define UP_STRUM		0x0010
 #define DOWN_STRUM		0x0040
-#define LEFT_STRUM		0x0080
-#define RIGHT_STRUM		0x0020
 #define STAR_POWER		0x0100
 #define GREEN_FRET		0x0200
 #define YELLOW_FRET		0x1000
@@ -217,12 +209,6 @@ class PS2X {
       uint8_t _dat_mask; 
       volatile uint8_t *_dat_ireg;
     #else
-    #ifdef ESP8266
-      int _clk_pin;
-      int _cmd_pin;
-      int _att_pin;
-      int _dat_pin;
-    #else
       uint8_t maskToBitNum(uint8_t);
       uint16_t _clk_mask; 
       volatile uint32_t *_clk_lport_set;
@@ -236,7 +222,6 @@ class PS2X {
       uint16_t _dat_mask; 
       volatile uint32_t *_dat_lport;
     #endif
-    #endif
 	
     unsigned long last_read;
     byte read_delay;
@@ -246,6 +231,3 @@ class PS2X {
 };
 
 #endif
-
-
-

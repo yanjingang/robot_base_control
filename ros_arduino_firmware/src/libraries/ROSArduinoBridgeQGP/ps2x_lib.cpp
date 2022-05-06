@@ -1,10 +1,8 @@
-#include "ps2x_lib.h"
+#include "PS2X_lib.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
-#ifdef __AVR__
-#include <avr/io.h>
-#endif
+//#include <avr/io.h>
 #if ARDUINO > 22
   #include "Arduino.h"
 #else
@@ -95,7 +93,7 @@ boolean PS2X::read_gamepad(boolean motor1, byte motor2) {
    if(motor2 != 0x00)
       motor2 = map(motor2,0,255,0x40,0xFF); //noting below 40 will make it spin
 
-   byte dword[9] = {0x01,0x42,0,motor1,motor2,0,0,0,0};
+   char dword[9] = {0x01,0x42,0,motor1,motor2,0,0,0,0};
    byte dword2[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
    // Try a few times to get valid data...
@@ -134,7 +132,7 @@ boolean PS2X::read_gamepad(boolean motor1, byte motor2) {
    }
 
 #ifdef PS2X_COM_DEBUG
-   Serial.print("OUT:IN ");
+   Serial.println("OUT:IN");
    for(int i=0; i<9; i++){
       Serial.print(dword[i], HEX);
       Serial.print(":");
@@ -181,12 +179,6 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
   _dat_mask = digitalPinToBitMask(dat);
   _dat_ireg = portInputRegister(digitalPinToPort(dat));
 #else
-#ifdef ESP8266
-  _clk_pin = clk;
-  _cmd_pin = cmd;
-  _att_pin = att;
-  _dat_pin = dat;
-#else
   uint32_t            lport;                   // Port number for this pin
   _clk_mask = digitalPinToBitMask(clk);
   lport = digitalPinToPort(clk);
@@ -206,16 +198,11 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
   _dat_mask = digitalPinToBitMask(dat);
   _dat_lport = portInputRegister(digitalPinToPort(dat));
 #endif
-#endif
 
   pinMode(clk, OUTPUT); //configure ports
   pinMode(att, OUTPUT);
   pinMode(cmd, OUTPUT);
-#ifdef ESP8266
-  pinMode(dat, INPUT_PULLUP); // enable pull-up
-#else
   pinMode(dat, INPUT);
-#endif
 
 #if defined(__AVR__)
   digitalWrite(dat, HIGH); //enable pull-up
@@ -230,10 +217,10 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
 
   //see if it talked - see if mode came back. 
   //If still anything but 41, 73 or 79, then it's not talking
-  if(PS2data[1] != 0x41 && PS2data[1] != 0x42 && PS2data[1] != 0x73 && PS2data[1] != 0x79){ 
+  if(PS2data[1] != 0x41 && PS2data[1] != 0x73 && PS2data[1] != 0x79){ 
 #ifdef PS2X_DEBUG
     Serial.println("Controller mode not matched or no controller found");
-    Serial.print("Expected 0x41, 0x42, 0x73 or 0x79, but got ");
+    Serial.print("Expected 0x41, 0x73 or 0x79, but got ");
     Serial.println(PS2data[1], HEX);
 #endif
     return 1; //return error code 1
@@ -282,7 +269,7 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
     if(y == 10){
 #ifdef PS2X_DEBUG
       Serial.println("Controller not accepting commands");
-      Serial.print("mode still set at");
+      Serial.print("mode stil set at");
       Serial.println(PS2data[1], HEX);
 #endif
       return 2; //exit function with error
@@ -315,7 +302,6 @@ void PS2X::sendCommandString(byte string[], byte len) {
   Serial.println("");
 #else
   ATT_CLR(); // low enable joystick
-  delayMicroseconds(CTRL_BYTE_DELAY);
   for (int y=0; y < len; y++)
     _gamepad_shiftinout(string[y]);
   ATT_SET(); //high disable joystick
@@ -351,13 +337,10 @@ byte PS2X::readType() {
 
   return 0;
 */
-  Serial.print("Controller_type: ");
-  Serial.println(controller_type, HEX);
+
   if(controller_type == 0x03)
     return 1;
-  else if(controller_type == 0x01 && PS2data[1] == 0x42)
-	return 4;
-  else if(controller_type == 0x01 && PS2data[1] != 0x42)
+  else if(controller_type == 0x01)
     return 2;
   else if(controller_type == 0x0C)  
     return 3;  //2.4G Wireless Dual Shock PS2 Game Controller
@@ -449,36 +432,6 @@ inline bool PS2X::DAT_CHK(void) {
 }
 
 #else
-#ifdef ESP8266
-// Let's just use digitalWrite() on ESP8266.
-inline void  PS2X::CLK_SET(void) {
-  digitalWrite(_clk_pin, HIGH);
-}
-
-inline void  PS2X::CLK_CLR(void) {
-  digitalWrite(_clk_pin, LOW);
-}
-
-inline void  PS2X::CMD_SET(void) {
-  digitalWrite(_cmd_pin, HIGH);
-}
-
-inline void  PS2X::CMD_CLR(void) {
-  digitalWrite(_cmd_pin, LOW);
-}
-
-inline void  PS2X::ATT_SET(void) {
-  digitalWrite(_att_pin, HIGH);
-}
-
-inline void PS2X::ATT_CLR(void) {
-  digitalWrite(_att_pin, LOW);
-}
-
-inline bool PS2X::DAT_CHK(void) {
-  return digitalRead(_dat_pin) ? true : false;
-}
-#else
 // On pic32, use the set/clr registers to make them atomic...
 inline void  PS2X::CLK_SET(void) {
   *_clk_lport_set |= _clk_mask;
@@ -508,5 +461,4 @@ inline bool PS2X::DAT_CHK(void) {
   return (*_dat_lport & _dat_mask) ? true : false;
 }
 
-#endif
 #endif

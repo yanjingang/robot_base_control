@@ -10,25 +10,38 @@
    
 #ifdef USE_BASE
 
-#ifdef ROBOGAIA
-  /* The Robogaia Mega Encoder shield */
-  #include "MegaEncoderCounter.h"
-
-  /* Create the encoder shield object */
-  MegaEncoderCounter encoders = MegaEncoderCounter(4); // Initializes the Mega Encoder Counter in the 4X Count mode
+#ifdef QGP_ENC_COUNTER  // QGP驱动版电机编码器
+  #include "QGPMaker_Encoder.h"
+  
+  volatile long left_enc_pos = 0L;
+  volatile long right_enc_pos = 0L;
+  
+  QGPMaker_Encoder leftEncoder(LEFT_ENC_PIN);
+  QGPMaker_Encoder rightEncoder(RIGHT_ENC_PIN);
   
   /* Wrap the encoder reading function */
   long readEncoder(int i) {
-    if (i == LEFT) return encoders.YAxisGetCount();
-    else return encoders.XAxisGetCount();
+    if (i == LEFT){
+      left_enc_pos = leftEncoder.read();   //encoder.read()获取编码器数值；encoder.getRPM()获取编码器电机对应的每分钟转速（RPM）
+      return left_enc_pos;
+    }
+    else{
+      right_enc_pos = rightEncoder.read() * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
+      return right_enc_pos;
+    }
   }
 
   /* Wrap the encoder reset function */
   void resetEncoder(int i) {
-    if (i == LEFT) return encoders.YAxisReset();
-    else return encoders.XAxisReset();
+    if (i == LEFT){
+      left_enc_pos=0L;
+      return;
+    } else { 
+      right_enc_pos=0L;
+      return;
+    }
   }
-  
+
 #elif defined(ARDUINO_ENC_COUNTER)  // Arduino+L298P电机编码器
   volatile long left_enc_pos = 0L;
   volatile long right_enc_pos = 0L;
@@ -73,36 +86,23 @@
     }
   }
   
-#elif defined(QGP_ENC_COUNTER)  // QGP驱动版电机编码器
-  #include "QGPMaker_Encoder.h"
-  
-  volatile long left_enc_pos = 0L;
-  volatile long right_enc_pos = 0L;
-  
-  QGPMaker_Encoder leftEncoder(LEFT_ENC_PIN);
-  QGPMaker_Encoder rightEncoder(RIGHT_ENC_PIN);
+#elif defined ROBOGAIA
+  /* The Robogaia Mega Encoder shield */
+  #include "MegaEncoderCounter.h"
+
+  /* Create the encoder shield object */
+  MegaEncoderCounter encoders = MegaEncoderCounter(4); // Initializes the Mega Encoder Counter in the 4X Count mode
   
   /* Wrap the encoder reading function */
   long readEncoder(int i) {
-    if (i == LEFT){
-      left_enc_pos = leftEncoder.read();   //encoder.read()获取编码器数值；encoder.getRPM()获取编码器电机对应的每分钟转速（RPM）
-      return left_enc_pos;
-    }
-    else{
-      right_enc_pos = rightEncoder.read() * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
-      return right_enc_pos;
-    }
+    if (i == LEFT) return encoders.YAxisGetCount();
+    else return encoders.XAxisGetCount();
   }
 
   /* Wrap the encoder reset function */
   void resetEncoder(int i) {
-    if (i == LEFT){
-      left_enc_pos=0L;
-      return;
-    } else { 
-      right_enc_pos=0L;
-      return;
-    }
+    if (i == LEFT) return encoders.YAxisReset();
+    else return encoders.XAxisReset();
   }
 
 #elif defined ARDUINO_MY_COUNTER
