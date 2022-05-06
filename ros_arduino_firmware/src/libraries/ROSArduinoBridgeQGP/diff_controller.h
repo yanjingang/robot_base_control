@@ -36,7 +36,7 @@ SetPointInfo;
 SetPointInfo leftPID, rightPID;
 
 /* PID参数 PID Parameters */
-int Kp = 15;
+int Kp = 20;//15;
 int Kd = 12;
 int Ki = 0;
 int Ko = 50;
