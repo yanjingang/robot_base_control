@@ -137,7 +137,7 @@
 
   /* Stop the robot if it hasn't received a movement command
    in this number of milliseconds */
-  #define AUTO_STOP_INTERVAL 1000   //2000 每次move命令持续执行时间(可按需修改，调试PID时建议5000)
+  #define AUTO_STOP_INTERVAL 1000   //1000 每次move命令持续执行时间(可按需修改，yanjingang:调试PID时建议5000)
   long lastMotorCommand = AUTO_STOP_INTERVAL;
 #endif
 

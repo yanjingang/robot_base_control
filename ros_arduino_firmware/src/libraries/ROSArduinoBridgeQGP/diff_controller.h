@@ -36,8 +36,10 @@ SetPointInfo;
 SetPointInfo leftPID, rightPID;
 
 /* PID参数 PID Parameters */
-int Kp = 20;//15;
-int Kd = 12;
+//int Kp = 15;
+//int Kd = 12;  // L298P + JGB37-520 12v330rpm
+int Kp = 20; 
+int Kd = 30;  // yanjingang: QGPmotor + JGB37-520 12v330rpm
 int Ki = 0;
 int Ko = 50;
 

@@ -26,10 +26,10 @@
     Serial.print(" right=");
     Serial.println(rightEncoder.read());*/
     if (i == LEFT){
-      left_enc_pos = leftEncoder.read();   //encoder.read()获取编码器数值；encoder.getRPM()获取编码器电机对应的每分钟转速（RPM）
+      left_enc_pos = leftEncoder.read() * -1;   //encoder.read()获取编码器数值；encoder.getRPM()获取编码器电机对应的每分钟转速（RPM）
       return left_enc_pos;
     }else{
-      right_enc_pos = rightEncoder.read() * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
+      right_enc_pos = rightEncoder.read();// * -1; //yanjingang:电机编码器取反（即放在两侧的两个电机正负未对调，此时前进或后退，两电机的编码器转动方向是反的，需要修正下）
       return right_enc_pos;
     }
   }

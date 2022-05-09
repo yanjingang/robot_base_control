@@ -1,4 +1,4 @@
-1.ros_arduino_bridge 概述
+1.robot_base_control 概述
 --------
 该功能包包含Arduino库和用来控制Arduino的ROS驱动包，它旨在成为在ROS下运行Arduino控制的机器人的完整解决方案。
 
@@ -42,7 +42,7 @@
 
 **1.4 文件结构：**
 
-├── ros_arduino_bridge                      # metapackage (元功能包)
+├── robot_base_control                      # metapackage (元功能包)
 
     ├── CMakeLists.txt
 
@@ -161,21 +161,21 @@
 
 上述目录结构虽然复杂，但是关注的只有两大部分:
 
-* ros_arduino_bridge/ros_arduino_firmware/src/libraries/ROSArduinoBridge
-* ros_arduino_bridge/ros_arduino_python/config/arduino_params.yaml
+* robot_base_control/ros_arduino_firmware/src/libraries/ROSArduinoBridge
+* robot_base_control/ros_arduino_python/config/arduino_params.yaml
 
 前者是Arduino端的固件包实现，需要修改并上传至Arduino电路板；
 
 后者是ROS端的一个配置文件，相关驱动已经封装完毕，我们只需要修改配置信息即可。
 
-整体而言，借助于 ros_arduino_bridge 可以大大提高我们的开发效率。
+整体而言，借助于 robot_base_control 可以大大提高我们的开发效率。
 
 
 **1.5 官方 ROS 文档** 
 
 可以在 ROS wiki 上找到此文档的标准 ROS 样式版本：
 
-http://www.ros.org/wiki/ros_arduino_bridge
+http://www.ros.org/wiki/robot_base_control
 
 
 
@@ -183,7 +183,7 @@ http://www.ros.org/wiki/ros_arduino_bridge
 -------------------
 **2.1 Python Serial:** 
 
-ros_arduino_bridge 依赖于 python-serial 功能包，请提前安装此包。
+robot_base_control 依赖于 python-serial 功能包，请提前安装此包。
 
 在Ubuntu下安装python-serial包，使用命令：
 
@@ -262,10 +262,10 @@ or
 您应该会看到您所属的组列表，包括work。
 
 
-**2.5 安装 ros_arduino_bridge 库:**
+**2.5 安装 robot_base_control 库:**
 
     $ cd ~/catkin_ws/src
-    $ git clone git@github.com:yanjingang/ros_arduino_bridge.git
+    $ git clone git@github.com:yanjingang/robot_base_control.git
     $ cd ~/catkin_ws
     $ catkin_make
     $ source ~/catkin_ws/devel/setup.bash

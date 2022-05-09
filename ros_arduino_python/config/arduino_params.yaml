@@ -21,8 +21,8 @@ gear_reduction: 1.0
 #motors_reversed: True
 
 # === PID parameters
-Kp: 10
-Kd: 12
+Kp: 20
+Kd: 30 # yanjingang: L298P=12, QGPmotor=30
 Ki: 0
 Ko: 50
 accel_limit: 1.0
