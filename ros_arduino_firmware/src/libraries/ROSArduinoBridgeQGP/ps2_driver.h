@@ -17,7 +17,7 @@ PS2X ps2x;                     //定义PS2手柄
 int ps2_error = 0;      //连接错误
 byte ps2_type = 0;      //手柄类型
 byte ps2_vibrate = 0;   //震动
-byte ps2_motor_spd = 50; //默认控制电机转速
+byte ps2_motor_spd = 100; //默认控制电机转速
 
 
 //设置引脚 setup pins and settings:  GamePad(clock, command, attention,  data, Pressures?, Rumble?) 

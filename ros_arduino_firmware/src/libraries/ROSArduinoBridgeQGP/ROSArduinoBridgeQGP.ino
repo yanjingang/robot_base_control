@@ -322,8 +322,8 @@ void loop() {
             Serial.println("Select is being held");
         // 左侧上下左右键
         if (ps2x.Button(PSB_PAD_UP)) {  
-            Serial.print("Up held this hard: ");
-            Serial.println(ps2x.Analog(PSAB_PAD_UP), DEC);
+            //Serial.print("Up held this hard: ");
+            //Serial.println(ps2x.Analog(PSAB_PAD_UP), DEC);
             // 设置电机PID目标转速
             lastMotorCommand = millis();
             moving = 1;
@@ -331,8 +331,8 @@ void loop() {
             rightPID.TargetTicksPerFrame = ps2_motor_spd;
         }
         if (ps2x.Button(PSB_PAD_RIGHT)) {
-            Serial.print("Right held this hard: ");
-            Serial.println(ps2x.Analog(PSAB_PAD_RIGHT), DEC);
+            //Serial.print("Right held this hard: ");
+            //Serial.println(ps2x.Analog(PSAB_PAD_RIGHT), DEC);
             // 设置电机PID目标转速
             lastMotorCommand = millis();
             moving = 1;
@@ -340,8 +340,8 @@ void loop() {
             rightPID.TargetTicksPerFrame = ps2_motor_spd/2 * -1;
         }
         if (ps2x.Button(PSB_PAD_LEFT)) {
-            Serial.print("LEFT held this hard: ");
-            Serial.println(ps2x.Analog(PSAB_PAD_LEFT), DEC);
+            //Serial.print("LEFT held this hard: ");
+            //Serial.println(ps2x.Analog(PSAB_PAD_LEFT), DEC);
             // 设置电机PID目标转速
             lastMotorCommand = millis();
             moving = 1;
@@ -349,8 +349,8 @@ void loop() {
             rightPID.TargetTicksPerFrame = ps2_motor_spd/2;
         }
         if (ps2x.Button(PSB_PAD_DOWN)) {
-            Serial.print("DOWN held this hard: ");
-            Serial.println(ps2x.Analog(PSAB_PAD_DOWN), DEC);
+            //Serial.print("DOWN held this hard: ");
+            //Serial.println(ps2x.Analog(PSAB_PAD_DOWN), DEC);
             // 设置电机PID目标转速
             lastMotorCommand = millis();
             moving = 1;
