@@ -25,5 +25,5 @@ byte ps2_motor_spd = 60; //默认控制电机转速
 #define PS2_COMMAND_PIN    11
 #define PS2_DATA_PIN       12
 #define PS2_CLOCK_PIN      13
-#define PS2_USE_PRESSURES  true  // 启用手柄压感
+#define PS2_USE_PRESSURES  false  // 启用手柄压感
 #define PS2_USE_RUMBLE     true  // 启用手柄蜂鸣
