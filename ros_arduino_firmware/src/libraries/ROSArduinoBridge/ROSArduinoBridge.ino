@@ -239,21 +239,25 @@ void setup() {
             wait_ps2 -= 100;
         }
     }while(wait_ps2 > 0);  //while循环直到手柄连接成功
-
-    // 读取PS2设备类型
-    ps2_type = ps2x.readType();
-    switch (ps2_type) {
-        case 0:
-            Serial.println("Wireless DualShock Controller found ");
-            break;
-        case 1:
-            Serial.println("Wireless DualShock Controller found ");
-            break;
-        case 2:
-            Serial.println("Unknown Controller type found ");
-            break;
+    
+    if( ps2_error != 0 ){
+      Serial.print( "Search PS2 Fail! Please check USE_PS2!" );
+    }else{
+      // 读取PS2设备类型
+      ps2_type = ps2x.readType();
+      switch (ps2_type) {
+          case 0:
+              Serial.println("Wireless DualShock Controller found ");
+              break;
+          case 1:
+              Serial.println("Wireless DualShock Controller found ");
+              break;
+          case 2:
+              Serial.println("Unknown Controller type found ");
+              break;
+      }
+      ps2x.read_gamepad( true, 200 );  //开机震动0.2秒用于提示手柄连接成功
     }
-    ps2x.read_gamepad( true, 200 );  //开机震动0.2秒用于提示手柄连接成功
     delay( 500 );
     
   #endif
