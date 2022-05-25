@@ -283,7 +283,7 @@ class Arduino:
         values = self.execute_array('e')
         #print("get_encoder_counts: {}".format(values))
         if len(values) != 2:
-            print("Encoder count was not 2")
+            print("Encoder count was not 2: {}".format(values))
             raise SerialException
             return None
         else:
