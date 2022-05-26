@@ -157,7 +157,7 @@ long arg2;
 
 
 //是否启用PS2蓝牙手柄
-#define USE_PS2      // yanjingang: Enable the ps2x controller code
+//#define USE_PS2      // yanjingang: Enable the ps2x controller code
 //#undef USE_PS2     // Disable the ps2x controller code
 
 //如果启用PS2手柄，需要包含对应头文件
