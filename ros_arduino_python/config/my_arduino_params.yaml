@@ -16,11 +16,11 @@ base_frame: base_footprint #base_frame 设置
 
 # === 马达参数 Robot drivetrain parameters
 wheel_diameter: 0.067 #0.067   # 轮胎直径(米) 
-wheel_track: 0.23 #0.11        # 两个轮胎间距(米)
+wheel_track: 0.20 #0.11        # 两个轮胎间距(米)
 encoder_resolution: 38.5       # 编码器精度(手动推车移动1米，用1米的电机编码器值*(self.wheel_diameter * pi)/self.gear_reduction可以计算出此编码器精度)
 gear_reduction: 20             # 电机减速比(马达参数表：jgb37-520 12v 空转330rpm 减速比20)
 #motors_reversed: True         # 转向取反
-turn_reduction: 63.0           # 转向减速比（使转向速度降低，确保angular.z=1持续5s时旋转<40度，需要反复测量）
+turn_reduction: 0.49           # 转向减速比（使转向速度降低，确保angular.z=1持续5s时旋转<40度，需要反复测量）
 
 # === PID parameters 马达PID参数，控制轮速，修改到车子能够根据命令走直线且速度稳定
 Kp: 15 #3 #0.25   # 负责提高响应速度。调大后惯性过大，容易导致超过目标值后的震荡回调（通常先把其他参数置0，将Kp参数由小向大调，以能达到最快响应又无无大超调为最佳参数。）
